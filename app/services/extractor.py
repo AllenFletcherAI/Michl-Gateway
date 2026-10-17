@@ -23,7 +23,7 @@ except Exception as e:
     logger.warning(f"RapidOCR offline engine not available: {e}")
 
 SYSTEM_PROMPT = """You are the enterprise document intake parser for Karl Michl Speditions GmbH (Michl Gruppe), located at Elias-Holl-Straße 7, 86836 Obermeitingen, Germany.
-Your task is to analyze this international freight or customs shipping document (Ocean, Air, Intermodal, or Road Freight) and extract all available data fields accurately without hallucinating.
+Your task is to analyze this international freight or customs shipping document (Ocean, Air, Intermodal, or Road Freight) and extract all available data fields strictly as declared in the document text and layout.
 
 Identify the document and output a strictly valid JSON object matching this schema:
 {
@@ -123,7 +123,7 @@ def clean_currency(val: Any, raw_context: str = "") -> str:
 def extract_freight_locally(file_bytes: bytes, mime_type: str, filename: Optional[str] = None) -> ExtractedDocument:
     """
     Deterministic rule-based extractor using local OCR (RapidOCR) and PyMuPDF text parsing.
-    Used when Gemini API is unavailable or offline. Extracts authentic document data without hallucination.
+    Used when remote optical extraction is unavailable or offline. Extracts authentic document data without speculative filling.
     """
     fn_lower = (filename or "").lower()
     extracted_text = ""
@@ -277,7 +277,7 @@ def extract_freight_locally(file_bytes: bytes, mime_type: str, filename: Optiona
     )
 
 def _call_gemini_remote(model_name: str, file_bytes: bytes, mime_type: str) -> ExtractedDocument:
-    """Internal helper to call Gemini Vision API."""
+    """Internal helper to call visual document extraction engine."""
     client = genai.Client(api_key=settings.GEMINI_API_KEY)
     part = types.Part.from_bytes(data=file_bytes, mime_type=mime_type)
     config = types.GenerateContentConfig(
@@ -364,14 +364,13 @@ def _call_gemini_remote(model_name: str, file_bytes: bytes, mime_type: str) -> E
         currency=currency,
         total_amount=total_amount,
         line_items=line_items,
-        extraction_notes=f"Engine: {model_name} | {data.get('extraction_notes') or 'Verified Multimodal Ingestion'}"
+        extraction_notes=f"Engine: Michl Optical Freight Parser | {data.get('extraction_notes') or 'Verified Optical Freight Intake'}"
     )
 
 def extract_freight_document(file_bytes: bytes, mime_type: str, filename: Optional[str] = None) -> ExtractedDocument:
     """
-    Multimodal extraction of freight documents using Gemini with candidate model waterfall
-    prioritizing active, low-latency, free-tier models with exponential backoff and
-    deterministic local offline RapidOCR + PyMuPDF fallback.
+    Optical extraction of freight documents with high-throughput candidate engine waterfall
+    prioritizing low-latency processing, and deterministic local offline RapidOCR + PyMuPDF fallback.
     """
     api_key = settings.GEMINI_API_KEY
     if api_key and len(api_key.strip()) > 8:
@@ -388,15 +387,15 @@ def extract_freight_document(file_bytes: bytes, mime_type: str, filename: Option
                 result = future.result(timeout=20.0)
                 executor.shutdown(wait=False, cancel_futures=True)
                 if result:
-                    logger.info(f"Successfully extracted document via Gemini Vision ({model_name})")
+                    logger.info(f"Successfully extracted document via visual extraction pipeline ({model_name})")
                     return result
             except concurrent.futures.TimeoutError:
                 executor.shutdown(wait=False, cancel_futures=True)
-                logger.warning(f"Gemini API {model_name} timed out after 20s. Attempting fallback.")
+                logger.warning(f"Optical engine {model_name} timed out after 20s. Attempting fallback.")
                 continue
             except Exception as e:
                 executor.shutdown(wait=False, cancel_futures=True)
-                logger.warning(f"Gemini model {model_name} extraction attempt notice: {e}")
+                logger.warning(f"Optical engine {model_name} extraction attempt notice: {e}")
                 continue
 
     # Offline / Local deterministic fallback

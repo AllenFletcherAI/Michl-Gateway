@@ -108,7 +108,7 @@ async def process_document(file: UploadFile = File(...)):
     """
     5-Stage Document Processing Pipeline:
     - Stage 1: INGEST (SHA-256 Digest, File Persistence, MIME validation)
-    - Stage 2: EXTRACT (Multimodal Vision Entity Extraction)
+    - Stage 2: EXTRACT (Optical Freight Document Entity Parsing)
     - Stage 3: AUDIT (Deterministic Verification: ISO 6346, Weight Consistency, Line-Item Math)
     - Stage 4: ROUTE (Clean -> Michl TMS Staging, Exception -> Demurrage Quarantine)
     - Stage 5: DISPATCH (Transact-SQL Generation for MS-SQL Server)
@@ -135,7 +135,7 @@ async def process_document(file: UploadFile = File(...)):
     elif ext == ".pdf":
         mime_type = "application/pdf"
 
-    # Stage 2: Semantic AI Extraction
+    # Stage 2: Optical Document Entity Extraction
     extracted_doc = extract_freight_document(contents, mime_type)
     
     # Stage 3: Deterministic Rule Harness

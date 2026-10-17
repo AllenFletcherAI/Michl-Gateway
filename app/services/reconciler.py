@@ -161,7 +161,7 @@ def reconcile_documents(
 
     is_perfect = (len(discrepancies) == 0)
 
-    # Pre-formulate professional Discrepancy Memo (No AI slashes //, clean human typography)
+    # Pre-formulate professional Discrepancy Memo (Clean typography conforming to DIN 5008 standards)
     ref_container = (bol.container_number if bol else None) or (packing_list.container_number if packing_list else None) or "SHIPMENT-REF"
     if is_perfect:
         if is_en:

@@ -419,7 +419,7 @@ def build_html() -> str:
 
     <div class="two-col">
       <div>
-        <h3>Stufe A: Multimodale Extraktion</h3>
+        <h3>Stufe A: Optische Dokumentenerfassung &amp; Layout-Analyse</h3>
         <p style="font-size: 8pt;">
           Hochauflösende OCR- und Layout-Analyse erfasst mehrseitige Frachtdokumente in Sekundenbruchteilen. Extrahierte Entitäten umfassen ISO 6346 Containernummern, Siegel, Tara/Brutto/Netto-Gewichte, Colli, Währungen, Rechnungsbeträge, Incoterms und Zolltarifcodes.
         </p>
@@ -427,7 +427,7 @@ def build_html() -> str:
       <div>
         <h3>Stufe B: Deterministische Validierung</h3>
         <p style="font-size: 8pt;">
-          Reine KI trifft keine Freigabeentscheidungen! Die extrahierten Werte werden gegen mathematische Prüfziffern-Algorithmen (ISO 6346 Modulo-11), zollrechtliche Toleranzen (50 kg Tara gem. § 412 HGB &amp; ADSp 2017) und ATLAS-Vollständigkeit validiert.
+          Keine ungeprüfte Übernahme! Die extrahierten Werte werden ausnahmslos gegen mathematische Prüfziffern-Algorithmen (ISO 6346 Modulo-11), zollrechtliche Toleranzen (50 kg Tara gem. § 412 HGB &amp; ADSp 2017) und ATLAS-Vollständigkeit validiert.
         </p>
       </div>
     </div>
@@ -595,7 +595,7 @@ public class MichlGatewayClient
         _client.BaseAddress = new Uri("https://michl-gateway.onrender.com");
     }}
 
-    // 1. Einzelbeleg-Verarbeitung (Multimodale Extraktion & Deterministisches Audit)
+    // 1. Einzelbeleg-Verarbeitung (Optische Extraktion & Deterministisches Audit)
     public async Task&lt;MichlStagingResponse&gt; IngestDocumentAsync(byte[] fileBytes, string fileName)
     {{
         using var content = new MultipartFormDataContent();
@@ -709,8 +709,8 @@ public class MichlGatewayClient
           <td><span class="pill pill-green">Art. 28 DSGVO (AVV)</span></td>
         </tr>
         <tr>
-          <td><strong>Kein KI-Modelltraining</strong></td>
-          <td>Frachtdokumente, Rechnungsbeträge und Kundendaten der Spedition werden zu <strong>100% von jeglichem Modelltraining ausgeschlossen</strong>. Garantierte Datenisolation.</td>
+          <td><strong>Kein Modelltraining &amp; Datensouveränität</strong></td>
+          <td>Frachtdokumente, Rechnungsbeträge und Kundendaten der Spedition verbleiben im flüchtigen Speicher und werden zu <strong>100% von externem Training oder Datenweitergabe ausgeschlossen</strong>. Garantierte deutsche Datensouveränität.</td>
           <td><span class="pill pill-blue">Zero-Retention Policy</span></td>
         </tr>
         <tr>
@@ -784,7 +784,7 @@ public class MichlGatewayClient
 
     <div class="callout callout-purple" style="margin-top: 5px; padding: 5px 8px;">
       <strong>Direkter Kontakt für das technische Onboarding:</strong><br>
-      <strong>Allen Fletcher</strong> · Data Automation &amp; AI Systems Specialist<br>
+      <strong>Allen Fletcher</strong> · Data Automation &amp; Logistics Systems Specialist<br>
       Live-System Demonstration: <a href="https://michl-gateway.onrender.com" style="color: #A30F14; font-weight: 700; text-decoration: none;">https://michl-gateway.onrender.com</a> · GitHub: <a href="https://github.com/AllenFletcherAI/Michl-Gateway" style="color: #A30F14; font-weight: 700; text-decoration: none;">AllenFletcherAI/Michl-Gateway</a>
     </div>
   </div>

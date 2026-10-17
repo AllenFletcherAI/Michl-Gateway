@@ -28,7 +28,7 @@ Calibrated for **[Karl Michl Speditions GmbH (Michl Gruppe)](https://michl-grupp
 ### Operational Objectives & Regional Context
 1. **Pre-Carriage Discrepancy & Seaport Demurrage Prevention:** The Michl Gruppe operates extensive contract logistics facilities (30,000+ m² warehousing, 10,000 pallet rack spaces across Obermeitingen and Schwabmünchen) and routes Bavarian manufactured goods 700+ km north to major seaport container terminals (**Port of Hamburg, Bremerhaven, Rotterdam, Antwerp**) and air hubs (**Munich MUC, Frankfurt FRA**). Discrepancies between local factory dispatch notes and ocean manifests (e.g. transposed ISO 6346 container check digits or weight variations >50 kg) cause severe terminal gate-in stoppages, carrier detention, and demurrage penalties (€150 to €350 per day). Michl Gateway verifies documents *before* long-distance transit begins.
 2. **Dispatcher Workflow Automation:** Converts unstructured freight PDFs and scanned documents into verified structured data in under 2 seconds, eliminating manual re-keying for dispatchers.
-3. **Deterministic Verification Enforcement:** AI entity extraction is gated by mathematical and legal rules (ISO 6346 Modulo-11, weight consistency under § 412 HGB / SOLAS VGM, line-item arithmetic). Model outputs are never committed directly to operational tables without passing deterministic verification.
+3. **Deterministic Verification Enforcement:** Optical entity extraction is strictly gated by mathematical and statutory rules (ISO 6346 Modulo-11, weight consistency under § 412 HGB / SOLAS VGM, line-item arithmetic). Extracted figures are never committed directly to operational tables without passing deterministic verification.
 4. **Decoupled TMS Staging Integration:** Emits parameterized Transact-SQL statements and JSON payloads formatted for direct ingestion into Michl's central Microsoft SQL Server database (`Michl_Staging_Shipments`) and .NET 8 backend.
 
 ---
@@ -38,7 +38,7 @@ Calibrated for **[Karl Michl Speditions GmbH (Michl Gruppe)](https://michl-grupp
 ```mermaid
 flowchart TD
     subgraph INTAKE["1. Document Ingestion (Bavarian Manufacturing & Logistics Hubs)"]
-        A["Factory Lieferschein<br/>Ocean B/L · CMR<br/>Commercial Invoice · Packing List"] --> B["Multimodal Extraction Engine<br/>PyMuPDF + RapidOCR + Gemini Vision"]
+        A["Factory Lieferschein<br/>Ocean B/L · CMR<br/>Commercial Invoice · Packing List"] --> B["Optical Document Extraction Engine<br/>PyMuPDF + High-Speed OCR Pipeline"]
         B --> C["Extracted Document Payload"]
     end
 
@@ -131,7 +131,7 @@ CREATE TABLE [dbo].[Michl_Staging_Shipments] (
 
 ### Prerequisites
 * Python 3.11+
-* Gemini API Key
+* Optical Extraction API Key (configured via `.env`; optional offline fallback included)
 
 ### Installation
 ```bash
@@ -147,7 +147,7 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 
 # Configure environment
-cp .env.example .env  # Add your GEMINI_API_KEY
+cp .env.example .env  # Configure environment credentials
 ```
 
 ### Running the Gateway

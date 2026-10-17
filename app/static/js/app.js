@@ -674,7 +674,7 @@ const translations = {
     reassurance_body: "Deep document extraction, deterministic rule auditing, and cryptographic seal generation are actively running in the background. Please do not close or navigate away from this page, as your records are being securely and thoroughly processed.",
     reassurance_action_warning: "Please do not refresh (F5) or click back while processing is in progress.",
     ticker_stage_1: "Reading document header and generating cryptographic SHA-256 seal...",
-    ticker_stage_2: "Extracting multimodal visual attributes and container metadata...",
+    ticker_stage_2: "Extracting visual freight attributes and container metadata...",
     ticker_stage_3: "Running deterministic ISO-6346 checksum and demurrage audit...",
     ticker_stage_4: "Generating T-SQL staging payload and Michl TMS database bridge...",
     ticker_stage_5: "Sealing GoBD & ATLAS 9.1 compliance audit dossier...",
@@ -3514,7 +3514,7 @@ function renderReconciliationResult(data) {
     }
   }
 
-  // Pre-formulate clean localized Discrepancy Memo (no AI slashes //, no em dashes)
+  // Pre-formulate clean localized Discrepancy Memo conforming to German forwarding standards (DIN 5008)
   const refContainer = (data.summary_chips && data.summary_chips.bol && data.summary_chips.bol.match(/([A-Z]{4}\d{7})/))
     ? data.summary_chips.bol.match(/([A-Z]{4}\d{7})/)[1]
     : 'MSCU7821940';
