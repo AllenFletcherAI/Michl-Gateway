@@ -4,7 +4,11 @@ import time
 import logging
 import concurrent.futures
 from typing import Optional, Any, List
-import pymupdf
+pymupdf = None
+try:
+    import pymupdf
+except ImportError:
+    pass
 from google import genai
 from google.genai import types
 
@@ -131,18 +135,26 @@ def extract_freight_locally(file_bytes: bytes, mime_type: str, filename: Optiona
 
     # 1. Text extraction from PDF
     if is_pdf:
-        try:
-            doc = pymupdf.open(stream=file_bytes, filetype="pdf")
-            extracted_text = "\n".join(page.get_text() for page in doc).strip()
-            # If PDF text layer is empty (scanned PDF), run RapidOCR on Page 1
-            if len(extracted_text) < 50 and rapid_ocr and len(doc) > 0:
-                pix = doc[0].get_pixmap(dpi=150)
-                img_bytes = pix.tobytes("png")
-                ocr_result, _ = rapid_ocr(img_bytes)
-                if ocr_result:
-                    extracted_text = "\n".join(line[1] for line in ocr_result)
-        except Exception as e:
-            logger.warning(f"PyMuPDF local extraction notice: {e}")
+        if pymupdf is not None:
+            try:
+                doc = pymupdf.open(stream=file_bytes, filetype="pdf")
+                extracted_text = "\n".join(page.get_text() for page in doc).strip()
+                # If PDF text layer is empty (scanned PDF), run RapidOCR on Page 1
+                if len(extracted_text) < 50 and rapid_ocr and len(doc) > 0:
+                    pix = doc[0].get_pixmap(dpi=150)
+                    img_bytes = pix.tobytes("png")
+                    ocr_result, _ = rapid_ocr(img_bytes)
+                    if ocr_result:
+                        extracted_text = "\n".join(line[1] for line in ocr_result)
+            except Exception as e:
+                logger.warning(f"PyMuPDF local extraction notice: {e}")
+        if not extracted_text:
+            try:
+                import pypdf, io
+                reader = pypdf.PdfReader(io.BytesIO(file_bytes))
+                extracted_text = "\n".join(page.extract_text() or "" for page in reader.pages).strip()
+            except Exception as e:
+                logger.warning(f"pypdf fallback extraction notice: {e}")
 
     # 2. Local OCR for images
     if not extracted_text and rapid_ocr:
