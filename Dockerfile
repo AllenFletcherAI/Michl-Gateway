@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
-# RedLine Gateway - Freight Ingestion & Customs Compliance Gateway
-# Red Line Internationale Spedition GmbH & mw1group
+# Michl Gateway - Freight Ingestion & Customs Compliance Gateway
+# Karl Michl Speditions GmbH & Michl Gruppe (Obermeitingen / Augsburg)
 # -----------------------------------------------------------------------------
 FROM python:3.11-slim
 

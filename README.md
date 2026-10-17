@@ -1,34 +1,35 @@
-# RedLine Gateway
-### Automated Shipping Document Ingestion & Customs Compliance Verification
+# Michl Gateway
+### Automated Factory-to-Seaport Document Ingestion & Gate-In Compliance Gateway
 
-[![Production](https://img.shields.io/badge/Production-Live-22c55e?style=flat-square&logo=render&logoColor=white)](https://redline-gateway.onrender.com)
-[![Uptime](https://img.shields.io/badge/Uptime-24%2F7%20Monitored-0284c7?style=flat-square&logo=uptimerobot&logoColor=white)](https://redline-gateway.onrender.com/health)
-[![Region](https://img.shields.io/badge/Region-Frankfurt%20(EU)--Central-4f46e5?style=flat-square)](https://redline-gateway.onrender.com)
+[![Production](https://img.shields.io/badge/Production-Live-22c55e?style=flat-square&logo=render&logoColor=white)](https://michl-gateway.onrender.com)
+[![Uptime](https://img.shields.io/badge/Uptime-24%2F7%20Monitored-0284c7?style=flat-square&logo=uptimerobot&logoColor=white)](https://michl-gateway.onrender.com/health)
+[![Region](https://img.shields.io/badge/Region-Frankfurt%20(EU)--Central-4f46e5?style=flat-square)](https://michl-gateway.onrender.com)
 [![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-059669?style=flat-square&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![Docker](https://img.shields.io/badge/Docker-Containerized-0284c7?style=flat-square&logo=docker&logoColor=white)](https://www.docker.com/)
-[![Compliance](https://img.shields.io/badge/Standard-ADSp%202017%20%7C%20ISO%206346-e11d48?style=flat-square)](https://www.spediteure.de/adsp/)
+[![Compliance](https://img.shields.io/badge/Standard-ADSp%202017%20%7C%20ISO%206346%20%7C%20SOLAS-a30f14?style=flat-square)](https://www.spediteure.de/adsp/)
 
-Developed for **[Red Line Internationale Spedition GmbH](https://www.red-line-logistics.com/)** & **[mw1group](https://www.mw1group.com/)**  
-*Gewerbepark Kachtenhausen 1–10, 32791 Lage, Germany*
+Calibrated for **[Karl Michl Speditions GmbH (Michl Gruppe)](https://michl-gruppe.de/)**  
+*Elias-Holl-Straße 7, 86836 Obermeitingen, Germany (Augsburg / Schwabmünchen Logistics Corridor)*  
+*Amtsgericht Augsburg HRB 25203 & HRB 21268 · Geschäftsführung: Norbert Michl & Stefan Michl · ISO 9001 / SQAS / EcoVadis Zertifiziert*
 
 ---
 
-> **Live Service:** [https://redline-gateway.onrender.com](https://redline-gateway.onrender.com)  
-> **API Documentation (OpenAPI/Swagger):** [https://redline-gateway.onrender.com/docs](https://redline-gateway.onrender.com/docs)  
-> **Health Probe:** [https://redline-gateway.onrender.com/health](https://redline-gateway.onrender.com/health)
+> **Live Service:** [https://michl-gateway.onrender.com](https://michl-gateway.onrender.com)  
+> **API Documentation (OpenAPI/Swagger):** [https://michl-gateway.onrender.com/docs](https://michl-gateway.onrender.com/docs)  
+> **Health Probe:** [https://michl-gateway.onrender.com/health](https://michl-gateway.onrender.com/health)
 
 ---
 
 ## 1. Overview & Operational Scope
 
-**RedLine Gateway** is a document processing and customs validation engine designed to ingest international freight documents (Ocean Bills of Lading, Air Waybills, Commercial Invoices, and Packing Lists), extract shipment entities, and validate them against logistics standards before ERP staging and German ATLAS 9.1 customs submission.
+**Michl Gateway** is an automated shipping document processing and customs validation engine engineered specifically for **Karl Michl Speditions GmbH (Michl Gruppe)**. It automates the intake of multi-modal freight documents (Ocean Bills of Lading, Sea Waybills, Air Waybills, CMR Consignment Notes, Factory Packing Lists, and Commercial Invoices), extracts shipment entities, and performs deterministic compliance verification before data enters the Michl Enterprise TMS staging tables and German ATLAS 9.1 customs submission.
 
-### Operational Objectives
-1. **Demurrage & Detention Prevention:** Detects weight discrepancies, invalid container check digits, and missing HS/TARIC tariff classifications before ocean vessels arrive at port (e.g., Hamburg or Rotterdam), mitigating carrier detention charges (€150–€350/day).
-2. **Dispatcher Workflow Automation:** Converts unstructured PDFs and document scans into verified structured records, eliminating manual re-keying into operational systems.
-3. **Deterministic Rule Enforcement:** Document parsing is coupled with strict mathematical and legal validation (ISO 6346 Modulo-11, weight consistency under § 412 HGB, line-item arithmetic). Model outputs are never committed directly to operational tables without passing deterministic verification.
-4. **ERP Integration:** Emits parameterized Transact-SQL statements and JSON payloads formatted for direct ingestion into mw1group's internal `myscm` Microsoft SQL Server 2022 database and .NET backend.
+### Operational Objectives & Regional Context
+1. **Pre-Carriage Discrepancy & Seaport Demurrage Prevention:** The Michl Gruppe operates extensive contract logistics facilities (30,000+ m² warehousing, 10,000 pallet rack spaces across Obermeitingen and Schwabmünchen) and routes Bavarian manufactured goods 700+ km north to major seaport container terminals (**Port of Hamburg, Bremerhaven, Rotterdam, Antwerp**) and air hubs (**Munich MUC, Frankfurt FRA**). Discrepancies between local factory dispatch notes and ocean manifests (e.g. transposed ISO 6346 container check digits or weight variations >50 kg) cause severe terminal gate-in stoppages, carrier detention, and demurrage penalties (€150 to €350 per day). Michl Gateway verifies documents *before* long-distance transit begins.
+2. **Dispatcher Workflow Automation:** Converts unstructured freight PDFs and scanned documents into verified structured data in under 2 seconds, eliminating manual re-keying for dispatchers.
+3. **Deterministic Verification Enforcement:** AI entity extraction is gated by mathematical and legal rules (ISO 6346 Modulo-11, weight consistency under § 412 HGB / SOLAS VGM, line-item arithmetic). Model outputs are never committed directly to operational tables without passing deterministic verification.
+4. **Decoupled TMS Staging Integration:** Emits parameterized Transact-SQL statements and JSON payloads formatted for direct ingestion into Michl's central Microsoft SQL Server database (`Michl_Staging_Shipments`) and .NET 8 backend.
 
 ---
 
@@ -36,30 +37,30 @@ Developed for **[Red Line Internationale Spedition GmbH](https://www.red-line-lo
 
 ```mermaid
 flowchart TD
-    subgraph INTAKE["1. Document Ingestion"]
-        A["Scanned Ocean B/L<br/>Commercial Invoice<br/>Packing List"] --> B["Multimodal Vision Extraction<br/>Gemini API"]
+    subgraph INTAKE["1. Document Ingestion (Bavarian Manufacturing & Logistics Hubs)"]
+        A["Factory Lieferschein<br/>Ocean B/L · CMR<br/>Commercial Invoice · Packing List"] --> B["Multimodal Extraction Engine<br/>PyMuPDF + RapidOCR + Gemini Vision"]
         B --> C["Extracted Document Payload"]
     end
 
     subgraph VALIDATION["2. Deterministic Verification Pipeline"]
-        C --> D{"Validation Rules"}
-        D --> D1["ISO 6346 Modulo-11 Checksum"]
-        D --> D2["Weight Consistency (Gross >= Net)"]
+        C --> D{"Compliance Rules"}
+        D --> D1["ISO 6346 Modulo-11 Check Digit"]
+        D --> D2["Weight Consistency (Gross >= Net, Delta <= 50kg)"]
         D --> D3["Line-Item Cross-Sum Arithmetic"]
-        D --> D4["Incoterms 2020 Syntax"]
-        D --> D5["HS / TARIC Tariff Code Validation"]
+        D --> D4["Incoterms 2020 Syntax (CIF/FOB/DAP)"]
+        D --> D5["HS / TARIC Customs Code Validation"]
     end
 
     subgraph DISPATCH["3. Routing & Persistence"]
-        D1 --> DECISION{"Audit Evaluation"}
+        D1 --> DECISION{"Audit Verdict"}
         D2 --> DECISION
         D3 --> DECISION
         D4 --> DECISION
         D5 --> DECISION
-        DECISION -->|"All Rules Pass (100%)"| E["VERIFIED_CLEAN<br/>ATLAS 9.1 Pre-Clearance Ready"]
+        DECISION -->|"All Rules Pass (100%)"| E["VERIFIED_CLEAN<br/>Port Gate-In & ATLAS Ready"]
         DECISION -->|"Any Rule Violation"| F["QUARANTINE_HOLD<br/>Demurrage Warning Active<br/>ADSp 2017 Notice Generated"]
-        E --> G[("MS-SQL Server 2022<br/>dbo.myscm_Staging")]
-        F --> H["Quarantine Management Console<br/>Discrepancy Notice to Carrier"]
+        E --> G[("Microsoft SQL Server<br/>dbo.Michl_Staging_Shipments")]
+        F --> H["Quarantine Console<br/>Automated Discrepancy Notice"]
     end
 
     classDef clean fill:#065f46,stroke:#34d399,stroke-width:2px,color:#fff;
@@ -75,115 +76,20 @@ flowchart TD
 ## 3. Core Validation Modules
 
 ### Three-Way Document Reconciliation
-Cross-checks the primary ocean freight document set:
-* **Transport Document (B/L)** vs. **Commercial Invoice** vs. **Packing List**
+Cross-checks the primary multimodal freight document set:
+* **Transport Document (B/L / CMR)** vs. **Commercial Invoice** vs. **Packing List**
 * Verifies container numbers, package quantities (Colli), gross and net weights, currencies, and Incoterms across all three documents.
-* Automatically routes files to quarantine if cross-document variance thresholds are exceeded (e.g., > 50 kg weight variance).
+* Detects weight discrepancies exceeding the legal 50-kg tolerance (§ 412 HGB / SOLAS VGM) and triggers instant quarantine alerts.
 
-### ISO 6346 Modulo-11 Container Validation
-Implements the standard ISO 6346 checksum verification for 11-character intermodal shipping containers (4-letter owner/equipment code, 6-digit serial, 1 check digit). Prevents gate-in rejections and terminal fines at container facilities (Hamburg CTA/NTB, Rotterdam World Gateway).
+### ISO 6346 Container Checksum Verification
+Implements the Modulo-11 algorithm over standard 11-character container identifiers:
+$$\text{Checksum} = \left( \sum_{i=0}^{9} \text{CharValue}(c_i) \times 2^i \right) \bmod 11 \bmod 10$$
+Flags check-digit mismatches before container drayage trucks arrive at terminal gate-in kiosks.
 
-### Weight Consistency Verification (§ 412 HGB)
-Validates that declared gross weights strictly exceed net weights across individual line items and document aggregates, adhering to shipper declaration rules under Section 412 of the German Commercial Code (HGB).
-
-### Carrier Discrepancy Notice Generation (ADSp 2017)
-When discrepancies are detected between carrier Bills of Lading and supplier commercial documents, the gateway produces a formal discrepancy memo citing **ADSp 2017 Section 19** and **§ 412 HGB**, allowing dispatchers to notify shipping lines immediately to halt demurrage accrual.
-
----
-
-## 4. Technology Stack
-
-| Component | Technology | Role |
-| :--- | :--- | :--- |
-| **API Framework** | FastAPI (Python 3.11) | Asynchronous REST API with Pydantic v2 validation |
-| **Entity Extraction** | Google Gemini Vision API | Structured multimodal OCR and key-value mapping |
-| **Validation Engine** | Pure Python | Deterministic ISO 6346, arithmetic, and trade code rule validation |
-| **Persistence** | SQLite / MS-SQL Server | Local audit ledger; T-SQL bridge for myscm staging |
-| **Frontend** | Single Page Application | HTML5, Tailwind CSS, vanilla JavaScript |
-| **Containerization** | Docker | Multi-stage Debian-slim runtime |
-| **Monitoring** | UptimeRobot | Periodic HTTP health probes |
-
----
-
-## 5. Local Setup
-
-### Prerequisites
-* Python 3.11+
-* Git
-
-### Step 1: Clone Repository
-```bash
-git clone https://github.com/AllenFletcherAI/Redline-Gateway.git
-cd Redline-Gateway
-```
-
-### Step 2: Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### Step 3: Configure Environment
-Create a `.env` file in the project root:
-```env
-GEMINI_API_KEY="your-google-gemini-api-key"
-PORT=8000
-HOST=0.0.0.0
-ENVIRONMENT=development
-COMPANY_NAME="Red Line Internationale Spedition GmbH"
-PARTNER_NAME="mw1group"
-```
-
-### Step 4: Run Application
-```bash
-python run.py
-```
-* **Web UI**: `http://localhost:8000`
-* **Swagger API Docs**: `http://localhost:8000/docs`
-* **Health Check**: `http://localhost:8000/health`
-
-### Alternative: Run with Docker
-```bash
-docker build -t redline-gateway .
-docker run -p 7860:7860 -e GEMINI_API_KEY="your-key" redline-gateway
-```
-
----
-
-## 6. Deployment & High Availability
-
-The service runs on **Render** (Frankfurt, EU-Central region) with automatic builds triggered from the repository's `main` branch.
-
-### Health Probing & Keep-Alive
-* **Endpoint:** `https://redline-gateway.onrender.com/health`
-* **Method:** HTTP `HEAD` / `GET`
-* **Frequency:** 5-minute interval via UptimeRobot
-* **Function:** Prevents container idle spin-downs on free-tier infrastructure, ensuring consistent response times.
-
----
-
-## 7. REST API Reference
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET / HEAD` | `/` | Web application dashboard |
-| `GET / HEAD` | `/health` | Service health and uptime check |
-| `GET` | `/api/v1/metrics` | Processing metrics (total processed, clean count, quarantine count) |
-| `POST` | `/api/v1/documents/process` | Upload document for OCR entity extraction and deterministic audit |
-| `GET` | `/api/v1/sample/{doc_type}` | Pre-loaded sample transport documents for testing |
-| `GET` | `/api/v1/reconcile-samples` | Three-way dossier sample set (B/L, Commercial Invoice, Packing List) |
-| `POST` | `/api/v1/reconcile-simulation` | Executes cross-document reconciliation and identifies variances |
-| `GET` | `/api/v1/recent` | Recent audit ledger entries |
-| `POST` | `/api/v1/quarantine/override` | Records authorized supervisor release on quarantined shipment |
-| `GET` | `/api/v1/integration/mssql-ddl` | MS-SQL Server DDL schema for `myscm_Staging` tables |
-| `GET` | `/api/v1/integration/client-snippets` | C#, Python, and cURL client integration code snippets |
-
----
-
-## 8. ERP Integration Specification (mw1group / myscm)
-
-### Target Database Schema ([dbo].[myscm_Staging_Shipments])
+### Decoupled Microsoft SQL Server Staging DDL
 ```sql
-CREATE TABLE [dbo].[myscm_Staging_Shipments] (
+-- Table definition for decoupled TMS staging:
+CREATE TABLE [dbo].[Michl_Staging_Shipments] (
     [StagingID] INT IDENTITY(1,1) PRIMARY KEY,
     [ShipmentRef] NVARCHAR(50) NOT NULL,
     [ContainerNumber] NVARCHAR(11) NULL,
@@ -197,41 +103,67 @@ CREATE TABLE [dbo].[myscm_Staging_Shipments] (
     [Incoterm] CHAR(3) NULL,
     [OriginPort] NVARCHAR(50) NULL,
     [DestinationPort] NVARCHAR(50) NULL,
-    [ShipperName] NVARCHAR(150) NULL,
-    [ConsigneeName] NVARCHAR(150) NULL,
+    [ShipperName] NVARCHAR(200) NULL,
+    [ConsigneeName] NVARCHAR(200) NULL,
     [AuditStatus] NVARCHAR(30) NOT NULL,
     [AtlasReady] BIT DEFAULT 0,
     [IngestedAtUtc] DATETIME2 DEFAULT SYSUTCDATETIME()
 );
 ```
 
-### C# / ASP.NET Ingestion Client
-```csharp
-using System.Net.Http.Json;
+---
 
-public async Task<RedLineStagingResponse> IngestFreightDocumentAsync(byte[] documentBytes, string fileName)
-{
-    using var client = new HttpClient { BaseAddress = new Uri("https://redline-gateway.onrender.com") };
-    using var content = new MultipartFormDataContent();
-    content.Add(new ByteArrayContent(documentBytes), "file", fileName);
+## 4. REST API Specification
 
-    var response = await client.PostAsync("/api/v1/documents/process", content);
-    response.EnsureSuccessStatusCode();
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/v1/documents/process` | Ingests a single shipping PDF/scan, runs deterministic verification, and generates a parameterized T-SQL INSERT statement. |
+| `POST` | `/api/v1/reconcile-live` | Performs a live 3-way cross-audit across Bill of Lading, Commercial Invoice, and Packing List files. |
+| `GET` | `/api/v1/sample/{name}` | 1-Click test execution against pre-loaded bills of lading, commercial invoices, and packing lists. |
+| `GET` | `/api/v1/metrics` | Returns live KPI telemetry: total processed documents, clean clearance rate, and prevented demurrage liability. |
+| `GET` | `/api/v1/recent` | Retrieves the GoBD-compliant audit ledger of processed shipments with SHA-256 tamper-evident seals. |
+| `POST` | `/api/v1/quarantine/override` | Allows authorized dispatchers to override quarantine holds with mandatory justification logging. |
+| `GET` | `/health` | Zero-downtime health probe for container orchestration and uptime monitoring. |
 
-    return await response.Content.ReadFromJsonAsync<RedLineStagingResponse>();
-}
+---
+
+## 5. Local Setup & Execution
+
+### Prerequisites
+* Python 3.11+
+* Gemini API Key
+
+### Installation
+```bash
+# Clone the repository
+git clone https://github.com/AllenFletcherAI/Michl-Gateway.git
+cd Michl-Gateway
+
+# Create virtual environment
+python -m venv .venv
+source .venv/bin/activate  # Windows: .venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp .env.example .env  # Add your GEMINI_API_KEY
+```
+
+### Running the Gateway
+```bash
+python run.py
+# Server runs on http://localhost:8000
+# OpenAPI Docs: http://localhost:8000/docs
 ```
 
 ---
 
-## 9. Security & Compliance
+## 6. Regulatory & Legal Compliance Framework
 
-* **Data Privacy (GDPR / DSGVO):** Complies with European data protection standards. Document bytes are processed in memory and never retained for third-party machine learning model training.
-* **Non-Root Container Security:** The Docker image runs under an unprivileged user account (`gateway`, UID `1000`) following CIS container security guidelines.
-* **Audit Trail Integrity:** Ingested documents receive a SHA-256 cryptographic digest binding document content, extraction timestamps, and deterministic validation outputs.
+* **ADSp 2017 (Allgemeine Deutsche Spediteurbedingungen):** Automated generation of formal notice letters within 2 seconds of detecting weight variances or packaging defects, preserving carrier recourse rights.
+* **GoBD Compliance (§§ 146, 147 AO):** SHA-256 cryptographic chaining of all inbound documents and audit events ensuring immutable, audit-proof transaction logs.
+* **DSGVO / GDPR Conformity:** Ephemeral in-memory document parsing; zero persistent storage of sensitive commercial data without explicit operator override. All cloud compute pinned to Frankfurt (EU-Central).
 
 ---
-
-## 10. License
-
-Proprietary software developed for **Red Line Internationale Spedition GmbH** & **mw1group**. All rights reserved.
+*Developed for **Karl Michl Speditions GmbH (Michl Gruppe)** · Elias-Holl-Straße 7, 86836 Obermeitingen, Germany · Amtsgericht Augsburg HRB 25203 & HRB 21268*

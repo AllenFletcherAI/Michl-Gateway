@@ -82,4 +82,5 @@ class ProcessedShipmentResponse(BaseModel):
     audit_report: AuditReport
     mssql_schema_ready: bool
     mssql_insert_statement: str
-    myscm_staging_payload: Dict[str, Any]
+    michl_staging_payload: Dict[str, Any] = Field(default_factory=dict, description="Staging payload formatted for Michl TMS / ERP")
+    myscm_staging_payload: Optional[Dict[str, Any]] = Field(default=None, description="Legacy alias for backwards compatibility")

@@ -8,7 +8,8 @@ def main():
     env = os.getenv("ENVIRONMENT", "production")
     
     print("=" * 60)
-    print("  RedLine Gateway - Autonomous Logistics & Customs Pre-Clearance")
+    print("  Michl Gateway - Autonomous Logistics & Customs Pre-Clearance")
+    print("  Karl Michl Speditions GmbH / Michl Gruppe (Obermeitingen)")
     print(f"  Mode: {env.upper()} | Listening on: http://{host}:{port}")
     print("=" * 60)
     
